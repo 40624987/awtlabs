@@ -3,7 +3,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def root():
-    return "The default, 'root' route"
+    return render_template('unstyled.html'), 200
 
 @app.route('/hello1/')
 def hello1():
@@ -108,6 +108,35 @@ def display():
 def hello4(name=None):
     user = {'name': name}
     return render_template('hello.html', user=user)
+
+@app.route('/hello5/<name>')
+def hello5(name=None):
+    user = {'name': name}
+    return render_template('hello.html', user=user)
+
+@app.route('/hello6/')
+@app.route('/hello6/<name>')
+def hello6(name=None):
+    return render_template('conditional.html', name=name)
+
+#TEMPLATE AND COLLECTIONS
+@app.route('/users/')
+def users():
+    names = ['simon', 'thomas', 'lee', 'jamie', 'sylvester']
+    return render_template('loops.html', names=names)
+
+#TEMPLATE INHERITANCE
+@app.route('/inherits/')
+def inherits():
+    return render_template('base.html')
+
+@app.route('/inherits/one/')
+def inherits_one():
+    return render_template('inherits1.html')
+
+@app.route('/inherits/two/')
+def inherits_two():
+    return render_template('inherits2.html')
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', debug=True)
